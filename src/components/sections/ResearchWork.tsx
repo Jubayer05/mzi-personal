@@ -1,7 +1,6 @@
 "use client";
 
 import { Typography } from "antd";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
@@ -104,7 +103,7 @@ const ResearchWork = () => {
                 <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-slate-200">
                   {/* Image Container */}
                   <div className="relative h-64 overflow-hidden">
-                    <Image
+                    <img
                       width={200}
                       height={200}
                       src={research.image}

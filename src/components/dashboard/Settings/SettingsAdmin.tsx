@@ -13,6 +13,14 @@ import {
 } from "antd";
 import { useEffect, useState } from "react";
 
+interface SocialData {
+  github: string;
+  linkedin: string;
+  researchgate: string;
+  email: string;
+  phone: string;
+}
+
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 
@@ -30,7 +38,10 @@ interface ProfileData {
 
 export default function SettingsAdmin() {
   const [form] = Form.useForm();
+  const [socialForm] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [savingSocial, setSavingSocial] = useState(false);
+
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [educationList, setEducationList] = useState<
     Array<{ degree: string; institution: string }>
@@ -42,6 +53,7 @@ export default function SettingsAdmin() {
 
   useEffect(() => {
     fetchProfile();
+    fetchSocial();
   }, []);
 
   const fetchProfile = async () => {
@@ -56,6 +68,18 @@ export default function SettingsAdmin() {
       }
     } catch (error) {
       console.error("Failed to fetch profile:", error);
+    }
+  };
+
+  const fetchSocial = async () => {
+    try {
+      const response = await fetch("/api/social");
+      const result = await response.json();
+      if (result.success) {
+        socialForm.setFieldsValue(result.data as SocialData);
+      }
+    } catch (error) {
+      console.error("Failed to fetch social:", error);
     }
   };
 
@@ -85,6 +109,27 @@ export default function SettingsAdmin() {
       message.error("Failed to update profile");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSocialSubmit = async (values: SocialData) => {
+    setSavingSocial(true);
+    try {
+      const response = await fetch("/api/social", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const result = await response.json();
+      if (result.success) {
+        message.success("Social links updated successfully");
+      } else {
+        message.error(result.error || "Failed to update social links");
+      }
+    } catch (error) {
+      message.error("Failed to update social links");
+    } finally {
+      setSavingSocial(false);
     }
   };
 
@@ -160,13 +205,13 @@ export default function SettingsAdmin() {
             name="bio"
             rules={[{ required: true }]}
           >
-            <Input.TextArea rows={4} />
+            <TextArea rows={4} />
           </Form.Item>
           <Form.Item
             label="Detailed Biography (Full Profile Page)"
             name="detailedBio"
           >
-            <Input.TextArea rows={8} />
+            <TextArea rows={8} />
           </Form.Item>
         </Card>
 
@@ -209,25 +254,18 @@ export default function SettingsAdmin() {
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
-                onClick={() => {
-                  if (newDegree && newInstitution) {
-                    setEducationList([
-                      ...educationList,
-                      { degree: newDegree, institution: newInstitution },
-                    ]);
-                    setNewDegree("");
-                    setNewInstitution("");
-                  }
-                }}
+                onClick={addEducation}
               >
                 Add Education
               </Button>
             </div>
           </div>
         </Card>
+
         <Space direction="vertical" size="middle">
           {" "}
         </Space>
+
         <Card title="Research Specializations" className="my-6">
           <div className="mb-4">
             <Space wrap>
@@ -265,6 +303,34 @@ export default function SettingsAdmin() {
           Update Profile
         </Button>
       </Form>
+
+      <Space direction="vertical" size="middle">
+        {" "}
+      </Space>
+
+      <Card title="Social & Contact" className="mt-8">
+        <Form form={socialForm} layout="vertical" onFinish={handleSocialSubmit}>
+          <Form.Item label="GitHub URL" name="github">
+            <Input placeholder="https://github.com/username" />
+          </Form.Item>
+          <Form.Item label="LinkedIn URL" name="linkedin">
+            <Input placeholder="https://www.linkedin.com/in/username" />
+          </Form.Item>
+          <Form.Item label="ResearchGate URL" name="researchgate">
+            <Input placeholder="https://www.researchgate.net/profile/username" />
+          </Form.Item>
+          <Form.Item label="Email" name="email" rules={[{ type: "email" }]}>
+            <Input placeholder="name@university.edu" />
+          </Form.Item>
+          <Form.Item label="Phone" name="phone">
+            <Input placeholder="+880 1XXXXXXXXX" />
+          </Form.Item>
+
+          <Button type="primary" htmlType="submit" loading={savingSocial}>
+            Update Social & Contact
+          </Button>
+        </Form>
+      </Card>
     </div>
   );
 }

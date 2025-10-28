@@ -29,7 +29,7 @@ const PhotoModal = ({ image, title, isOpen, onClose }: PhotoModalProps) => {
           <IoClose className="text-3xl" />
         </button>
         <div className="relative w-full h-[80vh]">
-          <Image
+          <img
             src={image}
             alt={title}
             fill

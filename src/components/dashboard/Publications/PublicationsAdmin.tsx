@@ -11,7 +11,6 @@ import {
   Button,
   Card,
   Form,
-  Image,
   Input,
   InputNumber,
   message,
@@ -207,7 +206,7 @@ const PublicationsAdmin = () => {
       key: "image",
       width: 100,
       render: (url: string) => (
-        <Image
+        <img
           src={url}
           alt="Publication"
           width={60}
@@ -400,7 +399,7 @@ const PublicationsAdmin = () => {
             </Upload>
             {imageUrl && (
               <div style={{ marginTop: 8 }}>
-                <Image src={imageUrl} alt="Preview" width={100} />
+                <img src={imageUrl} alt="Preview" width={100} />
               </div>
             )}
           </Form.Item>
