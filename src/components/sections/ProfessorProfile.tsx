@@ -66,7 +66,7 @@ export default function ProfessorProfile({
             <div className="text-center">
               <div className="relative inline-block">
                 <Image
-                  src="/personal/mzi_personal-1.jpg"
+                  src="/gallery/7.jpg"
                   alt="Profile"
                   width={350}
                   height={350}
