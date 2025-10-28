@@ -1,38 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MZI Personal Website
+
+A full-stack personal website built with Next.js (App Router) featuring an admin dashboard to manage profile, publications, research work, resources (courses/chapters), and media uploads. Includes user authentication with email verification and password reset flows.
+
+## Tech Stack
+
+- **Framework**: Next.js 14 (App Router, TypeScript)
+- **UI**: Tailwind CSS, Ant Design (provider)
+- **DB**: MongoDB (Mongoose)
+- **Email**: Nodemailer (SMTP)
+- **Auth**: Custom email/password with verification tokens
+- **Deployment**: Vercel-friendly
+
+## Features
+
+- **Public**
+
+  - Home, Profile, Publications, Research, Resources, Contact
+  - Resource browsing by semester → course → chapter
+
+- **Auth**
+
+  - Register, Login
+  - Email verification (`/verify-email?token=...`)
+  - Forgot & Reset password (`/reset-password?token=...`)
+
+- **Dashboard**
+  - Manage publications, research work, resources
+  - Upload PDFs/images
+  - Profile and social links settings
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- MongoDB database (Atlas or local)
+- SMTP credentials (e.g., Gmail SMTP or any provider)
+- PNPM/Yarn/NPM
+
+### Environment Variables
+
+Create `.env.local` in the project root:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Database
+MONGODB_URI="your-mongodb-connection-string"
+
+# App URL (used in email links)
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+
+# SMTP (email delivery)
+SMTP_HOST="smtp.gmail.com"           # or your SMTP host
+SMTP_PORT="587"                      # 465 for SSL, 587 for TLS
+SMTP_SECURE="false"                  # "true" if using 465
+SMTP_USER="your@email.com"
+SMTP_PASS="your-smtp-password-or-app-password"
+SMTP_FROM="Your Name <no-reply@yourdomain.com>"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install & Run
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# install deps
+pnpm install
+# or: npm install / yarn
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# dev
+pnpm dev
+# open http://localhost:3000
 
-## Learn More
+# production build
+pnpm build
+pnpm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+If you see stale route/type errors after moving files, clear caches:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# from project root
+rm -rf .next .turbo
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# mzi-personal
-# mzi-personal
+## Project Structure
