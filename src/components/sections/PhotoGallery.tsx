@@ -29,13 +29,7 @@ const PhotoModal = ({ image, title, isOpen, onClose }: PhotoModalProps) => {
           <IoClose className="text-3xl" />
         </button>
         <div className="relative w-full h-[80vh]">
-          <img
-            src={image}
-            alt={title}
-            fill
-            className="object-contain rounded-lg"
-            priority
-          />
+          <img src={image} alt={title} className="object-contain rounded-lg" />
         </div>
         <p className="text-white text-center mt-6 text-xl font-medium">
           {title}
