@@ -11,7 +11,6 @@ import {
   Button,
   Card,
   Form,
-  Image,
   Input,
   message,
   Popconfirm,
@@ -214,7 +213,7 @@ const ResearchWorkAdmin = () => {
       key: "image",
       width: 100,
       render: (url: string) => (
-        <Image
+        <img
           src={url}
           alt="Research"
           width={60}
@@ -387,7 +386,7 @@ const ResearchWorkAdmin = () => {
             </Upload>
             {imageUrl && (
               <div style={{ marginTop: 8 }}>
-                <Image src={imageUrl} alt="Preview" width={100} />
+                <img src={imageUrl} alt="Preview" width={100} />
               </div>
             )}
           </Form.Item>
